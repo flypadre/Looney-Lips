@@ -1,0 +1,10 @@
+[
+	{
+		"prompt": ["an animal", "a skill", "a body part", "a living creature"],
+		"story" : "Once there was a %s who thought he knew %s, but got his %s kicked by a %s."
+	},
+	{
+		"prompt": ["an adjective","an element", "a pastry", "a noun"],
+		"story": "The %s dragon breathed %s on the %s and melted the %s."
+	}
+]

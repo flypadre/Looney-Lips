@@ -1,16 +1,7 @@
 extends Control
 
 var playerWords = []
-#var template = [
-#		{
-#		"prompt": ["an animal", "a skill", "a body part", "a living creature"],
-#		"story" : "Once there was a %s who thought he knew %s, but got his %s kicked by a %s."
-#		},
-#		{
-#		"prompt": ["an adjective","an element", "a pastry", "a noun"],
-#		"story": "The %s dragon breathed %s on the %s and melted the %s."
-#		}
-#		]
+
 var current_story = {}
 
 onready var PlayerText = $VBoxContainer/HBoxContainer/PlayerText
@@ -23,12 +14,27 @@ func _ready():
 	check_player_words_length()
 	
 func set_current_story():
+	var stories = get_from_json("StoryBook.json")
 	randomize()
-	var stories = $StoryBook.get_child_count()
-	var selected_story = (randi() % stories)
-	current_story.prompt = $StoryBook.get_child(selected_story).prompt
-	current_story.story = $StoryBook.get_child(selected_story).story
+	current_story = stories[randi() % stories.size()]
+#	uncomment the code below to use gdscript variables
+#	instead of JSON, make sure to comment out variables stories
+#	and current_story above if you do this
+
+#	var stories = $StoryBook.get_child_count()
+#	var selected_story = (randi() % stories)
+#	current_story.prompt = $StoryBook.get_child(selected_story).prompt
+#	current_story.story = $StoryBook.get_child(selected_story).story
 #	current_story = template[randi() % template.size()]
+
+func get_from_json(filename):
+	var file = File.new()
+	file.open(filename, File.READ)
+	var text = file.get_as_text()
+	var data = parse_json(text)
+	file.close()
+	return data
+	
 
 
 func _on_PlayerText_text_entered(new_text):

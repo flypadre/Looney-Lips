@@ -1,19 +1,35 @@
 extends Control
 
 var playerWords = []
-var current_story = {
-		"prompt": ["an animal", "a skill", "a body part", "a living creature"],
-		"story" : "Once there was a %s who thought he knew %s, but got his %s kicked by a %s."
-		}
+#var template = [
+#		{
+#		"prompt": ["an animal", "a skill", "a body part", "a living creature"],
+#		"story" : "Once there was a %s who thought he knew %s, but got his %s kicked by a %s."
+#		},
+#		{
+#		"prompt": ["an adjective","an element", "a pastry", "a noun"],
+#		"story": "The %s dragon breathed %s on the %s and melted the %s."
+#		}
+#		]
+var current_story = {}
 
 onready var PlayerText = $VBoxContainer/HBoxContainer/PlayerText
 onready var DisplayText = $VBoxContainer/DisplayText
 
 func _ready():
+	set_current_story()
 	DisplayText.text = "Welcome to Looney Lips. We are going to create a fun sentence! "
 	PlayerText.grab_focus()
 	check_player_words_length()
 	
+func set_current_story():
+	randomize()
+	var stories = $StoryBook.get_child_count()
+	var selected_story = (randi() % stories)
+	current_story.prompt = $StoryBook.get_child(selected_story).prompt
+	current_story.story = $StoryBook.get_child(selected_story).story
+#	current_story = template[randi() % template.size()]
+
 
 func _on_PlayerText_text_entered(new_text):
 	add_to_player_words()
